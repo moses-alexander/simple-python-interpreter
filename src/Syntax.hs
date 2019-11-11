@@ -32,7 +32,6 @@ data Value
     | Flag Bool
     deriving (Show, Ord, Eq)
 
-
 data Op
     = Add
     | Subtract
