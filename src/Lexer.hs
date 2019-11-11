@@ -22,7 +22,7 @@ lexer = T.makeTokenParser style
                "or", "not", "==", "<", ">", "**", ";",
                ">=", "<=" ]
         names = [ "if", "else", "for", "with", "in", "def", "range",
-                  "True", "False", "None", "," ]
+                  "True", "False", "None" ]
         style = emptyDef { T.commentLine = "#"
                          , T.reservedOpNames = ops
                          , T.reservedNames = names
