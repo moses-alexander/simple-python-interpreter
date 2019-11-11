@@ -1,4 +1,4 @@
-# python-parser
+# simple-python-interpreter
 
 WIP  
 run with `stack run data\test1.py` (or any other python file)  
