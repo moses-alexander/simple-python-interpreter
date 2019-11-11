@@ -4,7 +4,7 @@ import Control.Monad.State
 
 main :: IO ()
 main = do
-    print "testing: ...\n"
+    print "testing: ..."
     print "test primitive resolution"
     print $ build (Int 4)
     print $ build (CharLit 'a')
@@ -93,6 +93,6 @@ main = do
     print $ build $ BinOp Div (Int 3) (Float 4)
     print $ build $ BinOp Div (Int 3) (Int 4)
     print "test called funcs"
-    print $ build $ Call "print" [Int 4, Int 4]
+--    print $ build $ Call "print" [Int 4, Int 4]
     
 
