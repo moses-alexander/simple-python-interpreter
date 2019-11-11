@@ -15,6 +15,17 @@ to haskell literals. type annotations needed for numbers
 to specify Num subclass
 -}
 
+unwrapInt :: Value -> Int
+unwrapInt (Integ x) = x
+unwrapFlt :: Value -> Float
+unwrapFlt (Flt x) = x
+unwrapCh :: Value -> Char
+unwrapCh (Ch x) = x
+unwrapStr :: Value -> String
+unwrapStr (Str x) = x
+unwrapBool :: Value -> Bool
+unwrapBool (Flag x) = x
+
 class Builder a where
     convert :: Expr -> a
 

@@ -1,7 +1,7 @@
 module Main where
 
 import Interpreter
-import Syntax (Expr)
+import Syntax
 import Parser
 
 import System.IO (readFile)
@@ -12,17 +12,28 @@ main :: IO ()
 main = do
     file <- getArgs
     code <- readFile $ head file
-    buildExprs $ map parseCode $ lines code
+    printExprs $ map parseCode $ lines code
 
-buildExprs :: [Either ParseError [Expr]] -> IO ()
-buildExprs [] = print ""
-buildExprs (c:cs) = do
+printExprs :: [Either ParseError [Expr]] -> IO ()
+printExprs [] = return ()
+printExprs (c:cs) = do
                 case c of 
                     Left err -> print err
                     Right expr -> do
-                        print $ map build expr
-                        buildExprs cs
+                        buildExprs $ map build expr
+                        printExprs cs
 
+buildExprs :: [Value] -> IO ()
+buildExprs [] = return ()
+buildExprs (e:es) = do
+                case e of
+                    Integ x -> print $ unwrapInt (Integ x)
+                    Str x -> print $ unwrapStr (Str x)
+                    Ch x -> print $ unwrapStr (Ch x)
+                    Flt x -> print $ unwrapStr (Flt x)
+                    Flag x -> print $ unwrapBool (Flag x)
+                    _ -> print "error"
+                buildExprs es
         
 
 -- split up blocks with a hack -y func
