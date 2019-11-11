@@ -1,3 +1,4 @@
 # python-parser
 
-can handle literals and that's pretty much it
+can handle simple expressions.
+working on implementing variable assignment and function calling.
