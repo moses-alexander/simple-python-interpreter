@@ -206,31 +206,31 @@ build (Else e1 e2) = case build e1 of
 
 
 
-build (Call "abs" (e1:[])) = case build e1 of 
+build (Call "abs" [e1]) = case build e1 of 
                                 Integ x -> Integ $ abs x
                                 Flt x -> Flt $ abs x
                                 _ -> None
-build (Call "round" (e1:[])) = case build e1 of
+build (Call "round" [e1]) = case build e1 of
                                 Integ x -> Integ x
                                 Flt x -> Integ $ round x
                                 _ -> None
 build (Call "min" [Float x, Float y]) = 
                             if x <= y then Flt $ convert (Float x) 
                             else Flt $ convert (Float y)
-build (Call "min" (e1:e2:[])) = 
+build (Call "min" [e1, e2]) = 
                     let a = build e1
                         b = build e2
                     in if a < b then a else b
-build (Call "max" (e1:e2:[])) = 
+build (Call "max" [e1, e2]) = 
                     let a = build e1
                         b = build e2
                     in if a > b then a else b
-build (Call "len" (e1:[])) = case build e1 of
+build (Call "len" [e1]) = case build e1 of
                                 Ch x -> Integ 1
                                 Str x -> Integ $ length x
                                 _ -> None
 -- returns type as a String, chars are 1-len strings in python
-build (Call "type" (e1:[])) = case build e1 of
+build (Call "type" [e1]) = case build e1 of
                                 Ch x -> Str "str"
                                 Str x -> Str "str"
                                 Integ x -> Str "int"
@@ -238,18 +238,18 @@ build (Call "type" (e1:[])) = case build e1 of
                                 Flag x -> Str "bool"
                                 _ -> None
 -- `lower` and `upper` are methods in python but whatever
-build (Call "lower" (e1:[])) = case build e1 of
+build (Call "lower" [e1]) = case build e1 of
                                 Ch x -> Ch $ C.toLower x
                                 Str x -> Str $ map C.toLower x
                                 _ -> None
-build (Call "upper" (e1:[])) = case build e1 of
+build (Call "upper" [e1]) = case build e1 of
                                 Ch x -> Ch $ C.toUpper x
                                 Str x -> Str $ map C.toUpper x
                                 _ -> None
 -- will only work with Strings
 build (Call "join" es) = let a = map convert es
                          in Str $ concat a
-build (Call "bin" (e1:[])) = case build e1 of
+build (Call "bin" [e1]) = case build e1 of
                             Integ x -> 
                                 Str $ showIntAtBase 2 C.intToDigit x ""
                             _ -> None
@@ -257,11 +257,11 @@ build (Call "any" es) = let a = map build es
                         in Flag $ any (==True) $ map valBool a
 build (Call "all" es) = let a = map build es
                         in Flag $ all (==True) $ map valBool a
-build (Call "bool" (e1:[])) = Flag $ exprBool e1
+build (Call "bool" [e1]) = Flag $ exprBool e1
 -- we expect correct input (ie within range) for the next 2 funcs
-build (Call "ord" (e1:[])) = Integ $ C.ord . unwrapCh . build $ e1
-build (Call "chr" (e1:[])) = Ch $ C.chr . unwrapInt . build $ e1
-build (Call "str" (e1:[])) = let a = build e1
+build (Call "ord" [e1]) = Integ $ C.ord . unwrapCh . build $ e1
+build (Call "chr" [e1]) = Ch $ C.chr . unwrapInt . build $ e1
+build (Call "str" [e1]) = let a = build e1
                              in case a of
                                 Integ x -> Str $ show x
                                 Ch x -> Str $ show x
@@ -272,13 +272,13 @@ build (Call "str" (e1:[])) = let a = build e1
 build (Call "globals" []) = Str
                         "haskell doesn't maintain global vars"
 build (Call "help" []) = Str "help message"
-build (Call "hex" (e1:[])) = case build e1 of
+build (Call "hex" [e1]) = case build e1 of
                                 Integ x -> 
                                     Str $ showIntAtBase 16 C.intToDigit x ""
-build (Call "oct" (e1:[])) = case build e1 of
+build (Call "oct" [e1]) = case build e1 of
                                 Integ x -> 
                                     Str $ showIntAtBase 8 C.intToDigit x ""
-build (Call "pow" (e1:e2:[])) = case build e1 of
+build (Call "pow" [e1, e2]) = case build e1 of
                                     Integ x -> case build e2 of
                                         Integ y -> Integ $ x ^ y
                                         _ -> None
@@ -287,7 +287,7 @@ build (Call "pow" (e1:e2:[])) = case build e1 of
                                         _ -> None
                                     _ -> None
 build (Call "sum" es) =  Integ $ sum $ map convert es
-build (Call "id" (e1:[])) = case build e1 of
+build (Call "id" [e1]) = case build e1 of
                                 Ch x -> Ch x
                                 Str x -> Str x
                                 Integ x -> Integ x
