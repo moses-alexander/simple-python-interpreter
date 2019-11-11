@@ -92,7 +92,58 @@ main = do
     print $ build $ BinOp Div (Float 3) (Int 4)
     print $ build $ BinOp Div (Int 3) (Float 4)
     print $ build $ BinOp Div (Int 3) (Int 4)
-    print "test called funcs"
---    print $ build $ Call "print" [Int 4, Int 4]
-    
+    print "test IF stmnts"
+    print $ build $ If (BinOp GreaterThan (Int 6) (Int 3)) (Call "abs" [Int (-4)])
+    print $ build $ If (BinOp LessThan (Int 6) (Int 3)) (Call "abs" [Int (5)])
+    print $ build $ If (StringLit "") (Call "abs" [Int (-6)])
+    print "test ELSE stmnts"
+    print $ build $ Else (BinOp GreaterThan (Int 6) (Int 3)) (Call "abs" [Int (-4)])
+    print $ build $ Else (BinOp LessThan (Int 6) (Int 3)) (Call "abs" [Int (5)])
+    print $ build $ Else (StringLit "") (Call "abs" [Int (-6)])
 
+
+    print "test called funcs"
+    print $ build $ Call "abs" [Int (-4)]
+    print $ build $ Call "abs" [Float (-4)]
+    print $ build $ Call "round" [Int 4]
+    print $ build $ Call "round" [Float 4.2]
+    print $ build $ Call "min" [Float 4.2, Float 4.1]
+    print $ build $ Call "min" [Int 3, Int 5]
+    print $ build $ Call "min" [StringLit "abc", StringLit "def"]
+    print $ build $ Call "min" [CharLit 'r', CharLit 'd']
+    print $ build $ Call "min" [StringLit "abc", StringLit "abc"]
+    print $ build $ Call "max" [Float 4.2, Float 4.1]
+    print $ build $ Call "max" [Int 3, Int 5]
+    print $ build $ Call "max" [StringLit "abc", StringLit "def"]
+    print $ build $ Call "max" [CharLit 'r', CharLit 'd']
+    print $ build $ Call "max" [StringLit "abc", StringLit "abc"]
+    print $ build $ Call "len" [StringLit "abc"]
+    print $ build $ Call "len" [CharLit 'a']
+    print $ build $ Call "type" [CharLit 'a']
+    print $ build $ Call "type" [Int (-4)]
+    print $ build $ Call "type" [Float (-4)]
+    print $ build $ Call "type" [StringLit "abc"]
+    print $ build $ Call "lower" [CharLit 'A']
+    print $ build $ Call "lower" [StringLit "AbC"]
+    print $ build $ Call "upper" [CharLit 'a']
+    print $ build $ Call "upper" [StringLit "aBc"]
+    print $ build $ Call "join" [StringLit "abc", StringLit "abc"]
+    print $ build $ Call "bin" [Int 45]
+    print $ build $ Call "any" [Int 1, Int 2, Int 0]
+    print $ build $ Call "any" [StringLit "" , StringLit ""]
+    print $ build $ Call "all" [Int 1, Int 2, Int 0]
+    print $ build $ Call "all" [Float 1.1, Float 3.4]
+    print $ build $ Call "bool" [Int 0]
+    print $ build $ Call "bool" [Int 1]
+    print $ build $ Call "ord" [CharLit 'a']
+    print $ build $ Call "chr" [Int 97]
+    print $ build $ Call "str" [Int 97]
+    print $ build $ Call "str" [Boolean True]
+    print $ build $ Call "hex" [Int 45]
+    print $ build $ Call "oct" [Int 45]
+    print $ build $ Call "pow" [Int 1, Int 2]
+    print $ build $ Call "sum" [Int 1, Int 2]
+    print $ build $ Call "id" [Int 45]
+    print $ build $ Call "id" [CharLit 'a']
+    print $ build $ Call "none" []
+    print $ build $ Call "none" [Int 6, Int 8]

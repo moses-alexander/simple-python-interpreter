@@ -18,7 +18,7 @@ data Expr
     | Call String [Expr]
     | Func String [Expr] Expr
     | If Expr Expr
-    | Else Expr
+    | Else Expr Expr
     | For Expr Expr
     | With String Expr Expr
     | Assign String Expr
@@ -30,6 +30,7 @@ data Value
     | Str String
     | Ch Char
     | Flag Bool
+    | None
     deriving (Show, Ord, Eq)
 
 data Op

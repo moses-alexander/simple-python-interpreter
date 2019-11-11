@@ -58,6 +58,10 @@ opTable = [ [ prefix "not" Not ]
 expr :: Parser Expr
 expr = E.buildExpressionParser opTable tries
 
+comma = do
+    reserved' ","
+    
+
 int =  do
     i <- int'
     return $ Int i
@@ -94,13 +98,13 @@ assign = do
 
 call = do
     name <- ident
-    args <- parens' $ commaSep' (  var 
-                               <|> string''
-                               <|> true
-                               <|> false
-                               <|> character
-                               <|> float
-                               <|> int ) -- gets args from btwn parens
+    args <- parens' $ commaSep' (  try var 
+                               <|> try string''
+                               <|> try true
+                               <|> try false
+                               <|> try character
+                               <|> try float
+                               <|> try int ) -- gets args from btwn parens
     return $ Call name args
 
 func = do
@@ -137,10 +141,10 @@ if' = do
 
 else' = do
     reserved' "else"
-    _ <- string'
+    cond <- expr
     colon'
     ifFalse <- expr
-    return $ Else ifFalse
+    return $ Else cond ifFalse
 
 {-
 `try` looks ahead and checks if a parser succeeds or fails.
@@ -166,6 +170,7 @@ tries = try assign
     <|> try for
     <|> try with
     <|> try if'
+    <|> try else'
     <|> parens' expr
 
 cont :: Parser a -> Parser a
