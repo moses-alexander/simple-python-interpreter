@@ -58,10 +58,6 @@ opTable = [ [ prefix "not" Not ]
 expr :: Parser Expr
 expr = E.buildExpressionParser opTable tries
 
-comma = do
-    reserved' ","
-    
-
 int =  do
     i <- int'
     return $ Int i
