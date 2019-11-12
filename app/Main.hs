@@ -31,7 +31,7 @@ buildExprs (e:es) = do
                     Integ x -> print $ unwrapInt (Integ x)
                     Str x -> print $ unwrapStr (Str x)
                     Ch x -> print $ unwrapStr (Ch x)
-                    Flt x -> print $ unwrapStr (Flt x)
+                    Flt x -> print $ unwrapFlt (Flt x)
                     Flag x -> print $ unwrapBool (Flag x)
                     None -> return ()
                 buildExprs es
