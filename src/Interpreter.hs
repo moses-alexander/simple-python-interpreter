@@ -262,15 +262,15 @@ build (Call "bool" [e1]) = Flag $ exprBool e1
 build (Call "ord" [e1]) = Integ $ C.ord . unwrapCh . build $ e1
 build (Call "chr" [e1]) = Ch $ C.chr . unwrapInt . build $ e1
 build (Call "str" [e1]) = let a = build e1
-                             in case a of
+                          in case a of
                                 Integ x -> Str $ show x
                                 Ch x -> Str $ show x
                                 Str x -> Str x
                                 Flt x -> Str $ show x
                                 Flag x -> Str $ show x
                                 _ -> None
-build (Call "globals" []) = Str
-                        "haskell doesn't maintain global vars"
+build (Call "globals" []) = 
+                Str "haskell doesn't maintain global vars"
 build (Call "help" []) = Str "help message"
 build (Call "hex" [e1]) = case build e1 of
                                 Integ x -> 
